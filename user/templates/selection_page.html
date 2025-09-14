@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PlaceSmart – Selection</title>
+  <style>
+    :root{
+      --primary:#4f46e5; /* indigo */
+      --secondary:#1e40af; /* darker blue */
+      --muted:#475569;
+      --card:#ffffff;
+      --shadow: 0 8px 24px rgba(15,23,42,0.08);
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      margin:0;
+      background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+      background-attachment: fixed;
+      color:#0f172a;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Abstract subtle pattern overlay */
+    body::before{
+      content:"";
+      position:fixed;inset:0;
+      background-image: radial-gradient(circle at 20% 20%, rgba(79,70,229,0.08) 0, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(30,64,175,0.08) 0, transparent 50%);
+      z-index:-1;
+    }
+
+    /* NAVBAR */
+    .navbar{
+      width:100%;
+      background:#fff;
+      border-bottom:1px solid rgba(15,23,42,0.08);
+      padding:14px 24px;
+      display:flex;align-items:center;justify-content:space-between;
+      box-shadow:var(--shadow);
+      position:sticky;top:0;z-index:1000;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--primary)
+    }
+    .brand .logo{
+      width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;
+    }
+
+    .btn-logout{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);background:#fff;cursor:pointer;font-weight:600;box-shadow:var(--shadow);
+    }
+    .btn-logout:hover{transform:translateY(-2px);transition:all .15s ease}
+
+    /* TAGLINE */
+    .tagline{
+      text-align:center;
+      padding:30px 16px 10px;
+      color:var(--secondary);
+    }
+    .tagline h1{font-size:28px;font-weight:700;margin-bottom:6px}
+    .tagline p{font-size:16px;color:var(--muted)}
+
+    /* MAIN */
+    .main{
+      flex:1;
+      padding:28px;display:flex;flex-direction:column;gap:20px;max-width:1000px;margin:0 auto;
+    }
+
+    header .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    header h2{margin:0;font-size:22px;color:#1e293b}
+    .card{background:var(--card);padding:20px;border-radius:14px;box-shadow:var(--shadow);border:1px solid rgba(15,23,42,0.05)}
+
+    .selection-row{display:flex;gap:18px;flex-wrap:wrap}
+    .select-box{flex:1;min-width:260px}
+    select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.12);font-size:15px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.05)}
+
+    .options{display:flex;gap:14px;flex-wrap:wrap}
+    .option{
+      background:var(--card);padding:20px;border-radius:12px;min-width:220px;flex:1;cursor:pointer;border:1px solid rgba(15,23,42,0.06);box-shadow:var(--shadow);transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .option:hover{transform:translateY(-6px);box-shadow:0 10px 28px rgba(16,24,40,0.12)}
+    .option h3{margin:0 0 6px 0;color:var(--primary)}
+    .option p{margin:0;color:var(--muted);font-size:14px}
+
+    .details{margin-top:6px}
+
+    footer{text-align:center;margin-top:40px;color:var(--muted);font-size:13px;padding:16px}
+
+    /* responsive */
+    @media (max-width:720px){
+      .main{padding:14px}
+      .navbar{flex-direction:column;align-items:flex-start;gap:10px}
+      .tagline h1{font-size:22px}
+    }
+  </style>
+</head>
+<body>
+  <!-- TOP NAVBAR -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="brand">
+      <div class="logo">PS</div>
+      <div>PlaceSmart</div>
+    </div>
+    <button class="btn-logout" id="logoutBtn" title="Logout">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 17l5-5-5-5" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 12H9" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h8" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      Logout
+    </button>
+  </nav>
+
+  <!-- TAGLINE -->
+  <section class="tagline">
+    <h1>Smart Training for Smarter Placements</h1>
+    <p>Learn, practice, and succeed with PlaceSmart</p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <header class="card">
+      <div class="top-row">
+        <div>
+          <h2>Choose a Topic</h2>
+          <p style="margin:6px 0 0;color:var(--muted)">Select a subject area to start practice or view notes.</p>
+        </div>
+        <div style="text-align:right;color:var(--muted);font-size:13px">Logged in as <strong>Student</strong></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="selection-row">
+        <div class="select-box">
+          <label for="topicSelect" style="display:block;margin-bottom:8px;font-weight:600">Quick Selection (dropdown)</label>
+          <select id="topicSelect" aria-label="Topic select">
+            <option value="">-- Select a topic --</option>
+            <option value="number-system">Number System (HCF, LCM, Divisibility rules)</option>
+            <option value="profit-loss">Profit and Loss</option>
+          </select>
+        </div>
+
+        <div style="flex:1;min-width:220px">
+          <label style="display:block;margin-bottom:8px;font-weight:600">Or pick a card</label>
+          <div class="options">
+            <div class="option" data-topic="number-system" tabindex="0">
+              <h3>Number System</h3>
+              <p>HCF, LCM and divisibility rules — short tricks & sample questions.</p>
+            </div>
+
+            <div class="option" data-topic="profit-loss" tabindex="0">
+              <h3>Profit &amp; Loss</h3>
+              <p>Concepts, formulas and example problems for trade & commerce.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details card" id="topicDetails" style="margin-top:16px;display:none"></div>
+    </section>
+
+    <footer>© 2025 PlaceSmart • Smart Training for Smarter Placements</footer>
+  </main>
+
+  <script>
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn.addEventListener('click', ()=>{
+      if(confirm('Are you sure you want to logout?')){
+        alert('Logged out (demo). Redirecting to login page...');
+        window.location.href = '/login';
+      }
+    });
+
+    const topicSelect = document.getElementById('topicSelect');
+    const options = document.querySelectorAll('.option');
+    const details = document.getElementById('topicDetails');
+
+    function showTopic(key){
+      let html = '';
+      if(!key){ details.style.display='none'; details.innerHTML=''; return; }
+      if(key === 'number-system'){
+        html = `
+          <h2>Number System — HCF, LCM & Divisibility rules</h2>
+          <p>Topics included:</p>
+          <ul>
+            <li>HCF (Highest Common Factor) — Euclid's algorithm, prime factorization</li>
+            <li>LCM (Least Common Multiple) — relation with HCF: a*b = HCF*LCM</li>
+            <li>Divisibility rules for small primes and shortcuts for mental math</li>
+          </ul>
+          <p><strong>Example:</strong> Find the LCM of 12 and 18 — try it in the practice section.</p>
+        `;
+      } else if(key === 'profit-loss'){
+        html = `
+          <h2>Profit &amp; Loss</h2>
+          <p>Topics included:</p>
+          <ul>
+            <li>Profit, Loss and Cost Price / Selling Price definitions</li>
+            <li>Profit % and Loss % formulas and converting between them</li>
+            <li>Markup, discount and successive discounts</li>
+          </ul>
+          <p><strong>Example:</strong> If cost price is 200 and selling price is 250, profit percentage = ((250-200)/200)*100 = 25%.</p>
+        `;
+      } else {
+        html = '<p>Topic not found.</p>';
+      }
+      details.innerHTML = html;
+      details.style.display = 'block';
+      details.scrollIntoView({behavior:'smooth'});
+    }
+
+    topicSelect.addEventListener('change',(e)=> showTopic(e.target.value));
+    options.forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        const key = opt.dataset.topic;
+        topicSelect.value = key;
+        showTopic(key);
+      });
+      opt.addEventListener('keydown',(e)=>{ if(e.key === 'Enter' || e.key === ' ') opt.click(); });
+    });
+  </script>
+</body>
+</html>
