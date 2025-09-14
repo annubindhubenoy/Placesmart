@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaceSmart Exam</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            padding: 10px 20px;
+            color: white;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .navbar button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .navbar button:hover {
+            background-color: darkred;
+        }
+        /* Body content */
+        .content {
+            text-align: center;
+            margin-top: 100px;
+            padding: 20px;
+        }
+        .content p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .content button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .content button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1>PlaceSmart</h1>
+        <a href="{% url 'logout' %}">
+        <button>Logout</button>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+         {% csrf_token %}
+        <p>Please attempt this exam to assess your aptitude and grammar skills.  
+           This will help you identify areas for improvement. Press the button below to continue.</p>
+        <button>Submit</button>
+    </div>
+
+</body>
+</html>
