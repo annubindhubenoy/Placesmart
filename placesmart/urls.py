@@ -18,6 +18,9 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),  # Logout action
     path('aptitude/', views.aptitudetest_view, name='aptitudetest'),
     path('selection_page/', views.selection_page, name='selection_page'),
+    path('QuantitativeAbility/', views.ap_test1_view, name='ap_test1'),
+    path('LogicalReasoning/', views.ap_test2_view, name='ap_test2'),
+    path("Grammer", views.ap_test3_view, name="ap_test3"),
 
 
 ]
