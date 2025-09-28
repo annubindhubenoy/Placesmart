@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaceSmart Exam - Quantitative Ability</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0; 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f4f8; 
+            padding-top: 80px; 
+        }
+
+        /* Fixed Navbar */
+        .navbar { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background-color: #0d1b2a; 
+            padding: 15px 30px; 
+            color: white; 
+            z-index: 1000; 
+        }
+        .navbar h1 { margin: 0; font-size: 28px; font-weight: 700; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .navbar a button { 
+            background-color: #e63946; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 25px; 
+            cursor: pointer; 
+        }
+        .navbar a button:hover { background-color: #b92534; }
+        /* Timer color is set to amber/gold */
+        .timer { font-size: 18px; font-weight: bold; color: #e9c46a; }
+
+        /* Header */
+        .exam-header { 
+            background-color: #2a9d8f; 
+            color: white; 
+            text-align: center; 
+            padding: 25px; 
+            margin: 20px auto; 
+            border-radius: 15px; 
+            width: 90%; 
+            max-width: 800px; 
+        }
+
+        /* Exam Form */
+        .exam-form { 
+            background-color: white; 
+            width: 90%; 
+            max-width: 800px; 
+            margin: 20px auto; 
+            padding: 30px; 
+            border-radius: 15px; 
+        }
+        .question { margin-bottom: 25px; }
+        .question p { 
+            font-weight: 500; 
+            margin-bottom: 10px; 
+            color: #0d1b2a; 
+        }
+        .mark-badge {
+            background-color: #2a9d8f;
+            color: white;
+            font-size: 13px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-left: 10px;
+        }
+
+        /* Options */
+        .options label { 
+            display: block; 
+            padding: 10px 15px; 
+            margin-bottom: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            background-color: #f8fafc; 
+        }
+        .options input[type="radio"] { display: none; }
+        .options label:hover { background-color: #d1e7e0; border-color: #2a9d8f; }
+        .options input[type="radio"]:checked + label { 
+            background-color: #2a9d8f; 
+            color: white; 
+            border-color: #21867a; 
+        }
+
+        /* Next Button Container and Style */
+        .btn-container {
+            /* Aligns content (the button) to the right */
+            text-align: right; 
+            margin-top: 30px; 
+        }
+        .next-btn { 
+            width: 150px; /* Kept the width */
+            padding: 12px 0; 
+            font-size: 18px; 
+            background-color: #2a9d8f; 
+            color: white; 
+            border: none; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: background-color 0.3s;
+        }
+        .next-btn:hover { background-color: #21867a; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>PlaceSmart</h1>
+        <div class="nav-right">
+            <div class="timer" id="timer">Time Remaining: 15:00</div>
+            <a href="home.html"><button>Logout</button></a>
+        </div>
+    </div>
+
+    <div class="exam-header">
+        <h2>Quantitative Ability</h2>
+        <p>15 Random Questions (10 × 1 Mark, 5 × 2 Marks)</p>
+    </div>
+
+    <form class="exam-form" method="post" action="{% url 'ap_test2' %}">
+        {% csrf_token %}
+        {% for q in questions %}
+        <div class="question">
+            <p>
+                {{ forloop.counter }}. {{ q.question }}
+                <span class="mark-badge">{{ q.mark_weightage }} Mark{% if q.mark_weightage > 1 %}s{% endif %}</span>
+            </p>
+
+            <div class="options">
+                <input type="radio" id="q{{ forloop.counter }}a" name="q{{ forloop.counter }}" value="{{ q.option_a }}">
+                <label for="q{{ forloop.counter }}a">A) {{ q.option_a }}</label>
+
+                <input type="radio" id="q{{ forloop.counter }}b" name="q{{ forloop.counter }}" value="{{ q.option_b }}">
+                <label for="q{{ forloop.counter }}b">B) {{ q.option_b }}</label>
+
+                <input type="radio" id="q{{ forloop.counter }}c" name="q{{ forloop.counter }}" value="{{ q.option_c }}">
+                <label for="q{{ forloop.counter }}c">C) {{ q.option_c }}</label>
+
+                <input type="radio" id="q{{ forloop.counter }}d" name="q{{ forloop.counter }}" value="{{ q.option_d }}">
+                <label for="q{{ forloop.counter }}d">D) {{ q.option_d }}</label>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="btn-container">
+            <button type="submit" class="next-btn">Next</button>
+        </div>
+    </form>
+
+    <script>
+        // EXAM DURATION UPDATED TO 15 MINUTES (900s)
+        let examDuration = 15 * 60;
+
+        // Set global exam end time if not already set
+        if (!localStorage.getItem("examEndTime")) {
+            let endTime = new Date().getTime() + examDuration * 1000;
+            localStorage.setItem("examEndTime", endTime);
+        }
+
+        const timerDisplay = document.getElementById('timer');
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                let endTime = parseInt(localStorage.getItem("examEndTime"));
+                let now = new Date().getTime();
+                let timeLeft = Math.floor((endTime - now) / 1000);
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    alert('Time is up! Submitting your answers.');
+                    localStorage.removeItem("examEndTime");
+                    document.querySelector('.exam-form').submit();
+                } else {
+                    let minutes = Math.floor(timeLeft / 60);
+                    let seconds = timeLeft % 60;
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+                    timerDisplay.textContent = `Time Remaining: ${minutes}:${seconds}`;
+                }
+            }, 1000);
+        }
+
+        window.onload = startTimer;
+    </script>
+</body>
+</html>
